@@ -8,6 +8,7 @@ import org.xlsx4j.sml.Row
 import java.io.File
 import CellReference
 
+//todo support list of commands
 class XlsxReader(val sourceFactory: SourceFactory<MutableMap<String, Any?>>) : Reader<XlsxReadCommand> {
     override fun read(readCommand: XlsxReadCommand): List<Source> {
         val spreadsheetMLPackage = SpreadsheetMLPackage.load(readCommand.file ?: File(readCommand.path))
