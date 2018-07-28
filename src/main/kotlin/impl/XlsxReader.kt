@@ -21,29 +21,6 @@ class XlsxReader(val sourceFactory: SourceFactory<MutableMap<String, Any?>>) : R
         val range = Range.fromRange(sheetName, readCommand.area)
 
         val height = range.lastRow - range.firstRow + 1
-/*
-        val result = mutableListOf<Map<String, Any>>()
-
-        var rowData = mutableMapOf<String, Any>()
-        var currentHeight = 0
-
-        sheetData.row.forEach({ row ->
-            if (row.r >= range.firstRow) {
-                row.getC().fold(rowData, { acc, cell ->
-                    val shift = result.size * height
-                    acc.put(CellReference(sheetName, cell.r).shift(-shift, 0).toReference(), cell.v)
-                    acc
-                })
-                currentHeight++
-            }
-
-            if (currentHeight >= height) {
-                currentHeight = 0
-                result += rowData
-                rowData = mutableMapOf()
-            }
-        })
-*/
 
         return sheetData.row
                 .filter { row -> row.r >= range.firstRow }
