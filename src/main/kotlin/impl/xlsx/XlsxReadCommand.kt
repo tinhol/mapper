@@ -1,4 +1,4 @@
-package impl
+package impl.xlsx
 
 import api.ReadCommand
 import org.docx4j.openpackaging.packages.SpreadsheetMLPackage

@@ -1,9 +1,9 @@
 package test
 
-import impl.XlsxReadCommand
+import impl.xlsx.XlsxReadCommand
 import api.Simple
 import impl.MapTargetSourceFactory
-import impl.XlsxReader
+import impl.xlsx.XlsxReader
 import Main
 import impl.ClassTargetFactory
 import org.docx4j.openpackaging.packages.SpreadsheetMLPackage

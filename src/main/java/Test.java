@@ -1,8 +1,8 @@
 import api.Simple;
 import impl.ClassTargetFactory;
 import impl.MapTargetSourceFactory;
-import impl.XlsxReadCommand;
-import impl.XlsxReader;
+import impl.xlsx.XlsxReadCommand;
+import impl.xlsx.XlsxReader;
 import org.docx4j.openpackaging.exceptions.Docx4JException;
 import org.docx4j.openpackaging.packages.SpreadsheetMLPackage;
 import test.Device;

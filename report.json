@@ -1,0 +1,19 @@
+{
+  "devices" : [
+    {
+      "name" : "HP Color LaserJet CP5520",
+      "serialNumber" : "CNFTD370CM",
+      "ipAddress" : "192.168.1.21"
+    },
+    {
+      "name" : "HP LaserJet M4555 MFP",
+      "serialNumber" : "CNCVD290G7",
+      "ipAddress" : "192.168.1.37"
+    },
+    {
+      "name" : "Kyocera ECOSYS M2540dn",
+      "serialNumber" : "VCG6Y04276",
+      "ipAddress" : "192.168.1.29"
+    }
+  ]
+}

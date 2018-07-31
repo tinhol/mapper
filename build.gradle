@@ -20,6 +20,7 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile(group: 'commons-io', name: 'commons-io', version: '2.4')
     compile(group: 'org.docx4j', name: 'docx4j', version: '3.3.6')
+    compile(group: 'com.jayway.jsonpath', name: 'json-path', version: '2.4.0')
     compile('junit:junit:4.12')
 }
 
