@@ -8,8 +8,14 @@ import java.io.File
 
 class JsonReader(val sourceFactory: SourceFactory<MutableMap<String, Any?>>) : Reader<JsonReadCommand> {
     override fun read(readCommand: JsonReadCommand): List<Source> {
-        val file = readCommand.file ?: File(readCommand.path)
-        val listOfMaps: List<MutableMap<String, Any?>> = JsonPath.read(file, readCommand.jsonPath)
-        return listOfMaps.map { map -> sourceFactory.create(map) }
+        val listOfMaps = if (readCommand.json != null) {
+            JsonPath.read<List<MutableMap<String, Any?>>>(readCommand.json, readCommand.jsonPath)
+        } else {
+            JsonPath.read<List<MutableMap<String, Any?>>>(readCommand.file
+                    ?: File(readCommand.path), readCommand.jsonPath)
+        }
+        return listOfMaps.map { map ->
+            sourceFactory.create(map)
+        }
     }
 }
