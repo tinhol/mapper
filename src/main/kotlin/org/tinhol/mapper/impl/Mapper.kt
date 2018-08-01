@@ -14,6 +14,9 @@ open class Mapper(val targetFactory: TargetFactory) {
         val mappingTarget = targetFactory.create()
         mapping.forEach({ entry ->
             when (entry) {
+                is Trivial -> {
+                    mappingTarget.setValue(entry.name, source.getValue(entry.name))
+                }
                 is Simple -> {
                     mappingTarget.setValue(entry.to, source.getValue(entry.from))
                 }
