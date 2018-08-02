@@ -3,14 +3,14 @@ package org.tinhol.mapper.impl
 import org.tinhol.mapper.api.*
 import org.tinhol.mapper.api.Target
 
-open class Mapper(val targetFactory: TargetFactory) {
-    fun map(sources: Iterable<Source>, mapping: List<Op>): Iterable<Target> {
+open class Mapper<T>(val targetFactory: TargetFactory<T>) {
+    fun map(sources: Iterable<Source>, mapping: List<Op>): Iterable<Target<T>> {
         return sources.map { source ->
             map(source, mapping)
         }
     }
 
-    open fun map(source: Source, mapping: List<Op>): Target {
+    open fun map(source: Source, mapping: List<Op>): Target<T> {
         val mappingTarget = targetFactory.create()
         mapping.forEach({ entry ->
             when (entry) {

@@ -1,5 +1,5 @@
 package org.tinhol.mapper.api
 
-interface TargetFactory {
-    fun create() : Target
+interface TargetFactory<T> {
+    fun create() : Target<T>
 }

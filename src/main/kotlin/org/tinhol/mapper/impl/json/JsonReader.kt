@@ -8,12 +8,13 @@ import java.io.File
 
 class JsonReader(val sourceFactory: SourceFactory<MutableMap<String, Any?>>) : Reader<JsonReadCommand> {
     override fun read(readCommand: JsonReadCommand): List<Source> {
-        val listOfMaps = if (readCommand.json != null) {
-            JsonPath.read<List<MutableMap<String, Any?>>>(readCommand.json, readCommand.jsonPath)
-        } else {
-            JsonPath.read<List<MutableMap<String, Any?>>>(readCommand.file
-                    ?: File(readCommand.path), readCommand.jsonPath)
+        val listOfMaps = when {
+            readCommand.json != null -> JsonPath.read<List<MutableMap<String, Any?>>>(readCommand.json, readCommand.jsonPath)
+            readCommand.inputStream != null -> JsonPath.read<List<MutableMap<String, Any?>>>(readCommand.inputStream, readCommand.jsonPath)
+            readCommand.file != null -> JsonPath.read<List<MutableMap<String, Any?>>>(readCommand.file, readCommand.jsonPath)
+            else -> throw RuntimeException("Json sources are empty")
         }
+
         return listOfMaps.map { map ->
             sourceFactory.create(map)
         }

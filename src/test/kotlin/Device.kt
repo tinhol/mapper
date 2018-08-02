@@ -1,5 +1,3 @@
-package org.tinhol.mapper.test
-
 class Device () : Named() {
     lateinit var serialNumber: String
     lateinit var ipAddress: String

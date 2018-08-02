@@ -14,8 +14,7 @@ import java.io.File
 
 class XlsxReader(val sourceFactory: SourceFactory<MutableMap<String, Any?>>) : Reader<XlsxReadCommand> {
     override fun read(readCommand: XlsxReadCommand): List<Source> {
-        val spreadsheetMLPackage = readCommand.spreadsheetMLPackage ?: SpreadsheetMLPackage.load(readCommand.file
-                ?: File(readCommand.path))
+        val spreadsheetMLPackage = readCommand.spreadsheetMLPackage ?: SpreadsheetMLPackage.load(readCommand.file)
         val workbookPart = spreadsheetMLPackage.workbookPart
         val worksheet = workbookPart.getWorksheet(readCommand.sheet!!)
         val sheetId = worksheet.sourceRelationships.filter { rel -> rel.type.endsWith("worksheet") }.map { rel -> rel.id }.first()

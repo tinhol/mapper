@@ -2,9 +2,13 @@ package org.tinhol.mapper.impl
 
 import org.tinhol.mapper.api.Target
 
-class ClassTarget(val obj: Any) : Target {
+class ClassTarget<T : Any>(val obj: T) : Target<T> {
+    override fun getContent(): T {
+        return obj
+    }
+
     override fun setValue(name: String, value: Any?) {
-        fun getHierarchy(cls: Class<in Any>): List<Class<in Any>> {
+        fun getHierarchy(cls: Class<*>): List<Class<*>> {
             if (cls.superclass != null) {
                 return listOf(cls) + getHierarchy(cls.superclass)
             } else {
