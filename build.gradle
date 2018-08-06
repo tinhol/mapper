@@ -17,12 +17,18 @@ repositories {
     mavenCentral()
 }
 
+configurations {
+    deployerJars
+    sourceArchives
+}
+
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile(group: 'commons-io', name: 'commons-io', version: '2.4')
     compile(group: 'org.docx4j', name: 'docx4j', version: '3.3.6')
     compile(group: 'com.jayway.jsonpath', name: 'json-path', version: '2.4.0')
     compile('junit:junit:4.12')
+    deployerJars(group: 'org.apache.maven.wagon', name: 'wagon-http', version: '1.0-beta-2')
 }
 
 task wrapper(type: Wrapper) {
@@ -34,5 +40,29 @@ install {
         pom.version = '0.1-SNAPSHOT'
         pom.artifactId = 'mapper-core'
         pom.groupId = 'org.tinhol.mapper'
+    }
+}
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
+artifacts {
+    archives sourceJar
+}
+
+uploadArchives.configure {
+    repositories.mavenDeployer {
+        name = 'httpDeployer'
+        configuration = configurations.deployerJars
+
+        pom.version = '0.1-SNAPSHOT'
+        pom.artifactId = 'mapper-core'
+        pom.groupId = 'org.tinhol.mapper'
+
+        repository(url: "$uploadUrl") {
+            authentication(userName: uploadUser, password: uploadPassword)
+        }
     }
 }
