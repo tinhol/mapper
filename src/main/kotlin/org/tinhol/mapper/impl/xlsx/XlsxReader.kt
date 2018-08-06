@@ -1,20 +1,30 @@
 package org.tinhol.mapper.impl.xlsx
 
-import org.tinhol.mapper.impl.CellReference
-import org.tinhol.mapper.impl.Range
+import com.jayway.jsonpath.JsonPath
+import org.docx4j.openpackaging.packages.SpreadsheetMLPackage
+import org.docx4j.openpackaging.parts.SpreadsheetML.SharedStrings
 import org.tinhol.mapper.api.Reader
 import org.tinhol.mapper.api.Source
 import org.tinhol.mapper.api.SourceFactory
-import org.docx4j.openpackaging.packages.SpreadsheetMLPackage
-import org.docx4j.openpackaging.parts.SpreadsheetML.SharedStrings
+import org.tinhol.mapper.impl.CellReference
+import org.tinhol.mapper.impl.MapTargetSourceFactory
+import org.tinhol.mapper.impl.Range
 import org.xlsx4j.sml.Cell
 import org.xlsx4j.sml.Row
 import org.xlsx4j.sml.STCellType
-import java.io.File
 
 class XlsxReader(val sourceFactory: SourceFactory<MutableMap<String, Any?>>) : Reader<XlsxReadCommand> {
+    constructor() : this(MapTargetSourceFactory()) {
+    }
+
     override fun read(readCommand: XlsxReadCommand): List<Source> {
-        val spreadsheetMLPackage = readCommand.spreadsheetMLPackage ?: SpreadsheetMLPackage.load(readCommand.file)
+        val spreadsheetMLPackage = when {
+            readCommand.spreadsheetMLPackage != null -> readCommand.spreadsheetMLPackage
+            readCommand.inputStream != null -> SpreadsheetMLPackage.load(readCommand.inputStream)
+            readCommand.file != null -> SpreadsheetMLPackage.load(readCommand.file)
+            else -> throw RuntimeException("Xxlsx sources are empty")
+        }
+
         val workbookPart = spreadsheetMLPackage.workbookPart
         val worksheet = workbookPart.getWorksheet(readCommand.sheet!!)
         val sheetId = worksheet.sourceRelationships.filter { rel -> rel.type.endsWith("worksheet") }.map { rel -> rel.id }.first()

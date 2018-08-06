@@ -24,7 +24,7 @@ class XlsxTest {
 
     @Test
     fun mapXlsxHorizontal() {
-        val main = Main(XlsxReader(MapTargetSourceFactory()),
+        val main = Main(XlsxReader(),
                 listOf(
                         Simple("A4", "name"),
                         Simple("E4", "ipAddress"),
@@ -40,7 +40,7 @@ class XlsxTest {
 
     @Test
     fun mapXlsxVerticalSingle() {
-        val main = Main(XlsxReader(MapTargetSourceFactory()),
+        val main = Main(XlsxReader(),
                 listOf(
                         Simple("B2", "name"),
                         Simple("B4", "ipAddress"),
@@ -56,7 +56,7 @@ class XlsxTest {
 
     @Test
     fun mapXlsxVerticalMultiple() {
-        val main = Main(XlsxReader(MapTargetSourceFactory()),
+        val main = Main(XlsxReader(),
                 listOf(
                         Simple("B2", "name"),
                         Simple("B4", "ipAddress"),

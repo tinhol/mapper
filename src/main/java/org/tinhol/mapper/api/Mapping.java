@@ -1,5 +1,9 @@
 package org.tinhol.mapper.api;
 
+import org.tinhol.mapper.Main;
+
+import java.util.List;
+
 public final class Mapping {
 
     private Mapping() {
@@ -19,5 +23,9 @@ public final class Mapping {
 
     public static Value value(Object value, String to) {
         return new Value(value, to);
+    }
+
+    public static <T extends ReadCommand, S> Main<T, S> mapping(Reader<T> reader, List<Op> mapping, TargetFactory<S> targetFactory) {
+        return new Main<>(reader, mapping, targetFactory);
     }
 }

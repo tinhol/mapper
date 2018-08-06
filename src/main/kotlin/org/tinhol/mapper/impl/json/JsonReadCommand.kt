@@ -11,4 +11,16 @@ class JsonReadCommand(
         val jsonPath: String? = null,
         override val repeat: Boolean = true
 ) : ReadCommand() {
+
+    constructor(inputStream: InputStream,
+                jsonPath: String? = null,
+                repeat: Boolean = true) : this(inputStream, null, null, jsonPath, repeat)
+
+    constructor(file: File,
+                jsonPath: String? = null,
+                repeat: Boolean = true) : this(null, file, null, jsonPath, repeat)
+
+    constructor(json: String,
+                jsonPath: String? = null,
+                repeat: Boolean = true) : this(null, null, json, jsonPath, repeat)
 }
