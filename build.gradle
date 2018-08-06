@@ -52,6 +52,10 @@ artifacts {
     archives sourceJar
 }
 
+def uploadUrl = rootProject.hasProperty('uploadUrl') ? rootProject['uploadUrl'] : ''
+def uploadUser = rootProject.hasProperty('uploadUser') ? rootProject['uploadUser'] : ''
+def uploadPassword = rootProject.hasProperty('uploadPassword') ? rootProject['uploadPassword'] : ''
+
 uploadArchives.configure {
     repositories.mavenDeployer {
         name = 'httpDeployer'
