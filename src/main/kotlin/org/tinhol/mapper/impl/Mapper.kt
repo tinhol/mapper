@@ -12,14 +12,14 @@ open class Mapper<T>(val targetFactory: TargetFactory<T>) {
 
     open fun map(source: Source, mapping: List<Op>): Target<T> {
         val mappingTarget = targetFactory.create()
-        mapping.forEach({ entry ->
+        mapping.forEach { entry ->
             when (entry) {
                 is Trivial -> mappingTarget.setValue(entry.name, source.getValue(entry.name))
                 is Simple -> mappingTarget.setValue(entry.to, source.getValue(entry.from))
                 is Transform -> mappingTarget.setValue(entry.to, applyTransform(source.getValue(entry.from), entry.transform))
                 is Value -> mappingTarget.setValue(entry.to, entry.value)
             }
-        })
+        }
         return mappingTarget
     }
 

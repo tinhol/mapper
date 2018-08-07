@@ -1,6 +1,5 @@
 package org.tinhol.mapper.impl.xlsx
 
-import com.jayway.jsonpath.JsonPath
 import org.docx4j.openpackaging.packages.SpreadsheetMLPackage
 import org.docx4j.openpackaging.parts.SpreadsheetML.SharedStrings
 import org.tinhol.mapper.api.Reader
@@ -14,8 +13,7 @@ import org.xlsx4j.sml.Row
 import org.xlsx4j.sml.STCellType
 
 class XlsxReader(val sourceFactory: SourceFactory<MutableMap<String, Any?>>) : Reader<XlsxReadCommand> {
-    constructor() : this(MapTargetSourceFactory()) {
-    }
+    constructor() : this(MapTargetSourceFactory())
 
     override fun read(readCommand: XlsxReadCommand): List<Source> {
         val spreadsheetMLPackage = when {
@@ -28,7 +26,7 @@ class XlsxReader(val sourceFactory: SourceFactory<MutableMap<String, Any?>>) : R
         val workbookPart = spreadsheetMLPackage.workbookPart
         val worksheet = workbookPart.getWorksheet(readCommand.sheet!!)
         val sheetId = worksheet.sourceRelationships.filter { rel -> rel.type.endsWith("worksheet") }.map { rel -> rel.id }.first()
-        val sheetName = workbookPart.contents.getSheets().getSheet().filter { sheet -> sheet.id == sheetId }.map { sheet -> sheet.name }.first()
+        val sheetName = workbookPart.contents.sheets.sheet.filter { sheet -> sheet.id == sheetId }.map { sheet -> sheet.name }.first()
 
         val sheetData = worksheet.contents.sheetData
         val range = Range.fromRange(sheetName, readCommand.area)
@@ -66,20 +64,20 @@ class XlsxReader(val sourceFactory: SourceFactory<MutableMap<String, Any?>>) : R
     }
 
 
-    fun cellValue(cell: Cell, sharedStrings: SharedStrings): String? {
+    private fun cellValue(cell: Cell, sharedStrings: SharedStrings): String? {
         if (cell.v == null) return null
         if (cell.t == STCellType.S) {
-            val ctRst = sharedStrings.contents.getSi().get(Integer.parseInt(cell.v))
+            val ctRst = sharedStrings.contents.si.get(Integer.parseInt(cell.v))
             var value: String? = null
 
-            if (ctRst.getT() != null) {
-                value = ctRst.getT().getValue()
+            if (ctRst.t != null) {
+                value = ctRst.t.value
             } else {
-                if (ctRst.getR() != null) {
+                if (ctRst.r != null) {
                     val stringBuilder = StringBuilder()
-                    for (ctrElt in ctRst.getR()) {
-                        if (ctrElt.getT() != null) {
-                            stringBuilder.append(ctrElt.getT().getValue())
+                    for (ctrElt in ctRst.r) {
+                        if (ctrElt.t != null) {
+                            stringBuilder.append(ctrElt.t.value)
                         }
                     }
                     value = stringBuilder.toString()

@@ -9,10 +9,10 @@ class ClassTarget<T : Any>(val obj: T) : Target<T> {
 
     override fun setValue(name: String, value: Any?) {
         fun getHierarchy(cls: Class<*>): List<Class<*>> {
-            if (cls.superclass != null) {
-                return listOf(cls) + getHierarchy(cls.superclass)
+            return if (cls.superclass != null) {
+                listOf(cls) + getHierarchy(cls.superclass)
             } else {
-                return listOf(cls)
+                listOf(cls)
             }
         }
 
