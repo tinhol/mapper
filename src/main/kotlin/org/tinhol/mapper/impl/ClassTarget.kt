@@ -16,7 +16,7 @@ class ClassTarget<T : Any>(val obj: T) : Target<T> {
             }
         }
 
-        getHierarchy(obj.javaClass).forEach({ cls ->
+        getHierarchy(obj.javaClass).forEach { cls ->
             try {
                 val declaredField = cls.getDeclaredField(name)
                 declaredField.set(obj, value)
@@ -24,7 +24,7 @@ class ClassTarget<T : Any>(val obj: T) : Target<T> {
             } catch (e: Exception) {
                 //ignore exception
             }
-        })
+        }
     }
 
     override fun toString(): String {

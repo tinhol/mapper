@@ -15,16 +15,18 @@ package org.tinhol.mapper.impl;/*
  */
 
 import org.apache.commons.lang3.ObjectUtils;
+import org.jetbrains.annotations.NotNull;
 import org.xlsx4j.sml.Cell;
 
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CellReference implements Comparable {
+public class CellReference implements Comparable<CellReference> {
     public static final Pattern CELL_COORDINATES_PATTERN = Pattern.compile("([A-z]+)([0-9]+)");
     private int column;
     private int row;
-    private String sheet;
+    private final String sheet;
 
     public CellReference(String sheet, int row, int column) {
         this.column = column;
@@ -36,7 +38,7 @@ public class CellReference implements Comparable {
         Matcher matcher = CELL_COORDINATES_PATTERN.matcher(cellRef);
         if (matcher.find()) {
             column = XlsxUtils.getNumberFromColumnReference(matcher.group(1));
-            row = Integer.valueOf(matcher.group(2));
+            row = Integer.parseInt(matcher.group(2));
             this.sheet = sheet;
         } else {
             throw new RuntimeException(String.format("Wrong cell %s", cellRef));
@@ -84,9 +86,7 @@ public class CellReference implements Comparable {
 
         if (column != that.column) return false;
         if (row != that.row) return false;
-        if (sheet != null ? !sheet.equals(that.sheet) : that.sheet != null) return false;
-
-        return true;
+        return Objects.equals(sheet, that.sheet);
     }
 
     @Override
@@ -98,14 +98,9 @@ public class CellReference implements Comparable {
     }
 
     @Override
-    public int compareTo(Object o) {
-        if (o instanceof CellReference) {
-            int rows = ObjectUtils.compare(row, ((CellReference) o).row);
-            int columns = ObjectUtils.compare(column, ((CellReference) o).column);
-            return rows != 0 ? rows : columns;
-
-        } else {
-            throw new IllegalArgumentException("Could not compare with " + o);
-        }
+    public int compareTo(@NotNull CellReference o) {
+        int rows = ObjectUtils.compare(row, ((CellReference) o).row);
+        int columns = ObjectUtils.compare(column, ((CellReference) o).column);
+        return rows != 0 ? rows : columns;
     }
 }
