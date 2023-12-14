@@ -30,7 +30,7 @@ public final class XlsxUtils {
             int number = ((int) c) - 64 - 1;
 
             int pow = columnReference.length() - i - 1;
-            sum += Math.pow(26, pow) * (number + 1);
+            sum += (int) (Math.pow(26, pow) * (number + 1));
         }
         return sum;
     }

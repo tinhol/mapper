@@ -28,7 +28,7 @@ public class Range {
     public final static Pattern NOT_STRICT_RANGE_PATTERN = Pattern.compile("([A-z]+[0-9]+):?([A-z]+[0-9]+)?");
     public final static Pattern STRICT_RANGE_PATTERN = Pattern.compile("([A-z]+[0-9]+):([A-z]+[0-9]+)");
 
-    private String sheet;
+    private final String sheet;
     private int firstColumn;
     private int firstRow;
     private int lastColumn;
@@ -66,8 +66,8 @@ public class Range {
             String endColumnStr = matcher.group(4);
             String endRowStr = matcher.group(5);
             try {
-                int startRow = Integer.valueOf(startRowStr);
-                int lastRow = Integer.valueOf(endRowStr);
+                int startRow = Integer.parseInt(startRowStr);
+                int lastRow = Integer.parseInt(endRowStr);
                 int startColumn = XlsxUtils.getNumberFromColumnReference(startColumnStr);
                 int lastColumn = XlsxUtils.getNumberFromColumnReference(endColumnStr);
                 return new Range(sheet, startColumn, startRow, lastColumn, lastRow);
@@ -82,7 +82,7 @@ public class Range {
             int startColumn = XlsxUtils.getNumberFromColumnReference(startColumnStr);
             int startRow;
             try {
-                startRow = Integer.valueOf(startRowStr);
+                startRow = Integer.parseInt(startRowStr);
                 return new Range(sheet, startColumn, startRow, startColumn, startRow);
             } catch (NumberFormatException e) {
                 throw new RuntimeException(String.format("Wrong range value %s. Error: %s", range, e.getMessage()));

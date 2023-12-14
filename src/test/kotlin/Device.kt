@@ -1,4 +1,4 @@
-class Device () : Named() {
+class Device() : Named() {
     lateinit var serialNumber: String
     lateinit var ipAddress: String
 

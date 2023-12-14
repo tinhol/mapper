@@ -16,7 +16,11 @@ open class Mapper<T>(val targetFactory: TargetFactory<T>) {
             when (entry) {
                 is Trivial -> mappingTarget.setValue(entry.name, source.getValue(entry.name))
                 is Simple -> mappingTarget.setValue(entry.to, source.getValue(entry.from))
-                is Transform -> mappingTarget.setValue(entry.to, applyTransform(source.getValue(entry.from), entry.transform))
+                is Transform -> mappingTarget.setValue(
+                    entry.to,
+                    applyTransform(source.getValue(entry.from), entry.transform)
+                )
+
                 is Value -> mappingTarget.setValue(entry.to, entry.value)
             }
         }
